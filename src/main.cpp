@@ -70,3 +70,89 @@ void notifyClients(String sliderValues)
 {
   ws.textAll(sliderValues);
 }
+void handleWebSocketMessage( void * arg, uint8_t * data, size_t len)
+{
+  AwsFrameInfo *info = (AwsFrameInfo*) arg;
+  if(info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT)
+  {
+    data[len] = 0 ;
+    message = (char *)data;
+    if(message.indexOf("1s") >= 0)
+    {
+      slidervalue1 = message.substring(2);
+      dutyCyle1 = map(slidervalue1.toInt(),0,100,0,1023);
+      Serial.println(dutyCyle1);
+      Serial.print(getSliderValues());
+      notifyClients(getSliderValues());
+    }
+     if(message.indexOf("2s") >= 0)
+    {
+      slidervalue2 = message.substring(2);
+      dutyCyle2 = map(slidervalue2.toInt(),0,100,0,1023);
+      Serial.println(dutyCyle2);
+      Serial.print(getSliderValues());
+      notifyClients(getSliderValues());
+    }
+     if(message.indexOf("3s") >= 0)
+    {
+      slidervalue1 = message.substring(2);
+      dutyCyle3 = map(slidervalue3.toInt(),0,100,0,1023);
+      Serial.println(dutyCyle3);
+      Serial.print(getSliderValues());
+      notifyClients(getSliderValues());
+    }
+    if(strcmp((char*)data,"getValues") == 0)
+    {
+      notifyClients(getSliderValues());
+    }
+  }
+}
+
+  void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len) {
+  switch (type) {
+    case WS_EVT_CONNECT:
+      Serial.printf("WebSocket client #%u connected from %s\n", client->id(), client->remoteIP().toString().c_str());
+      break;
+    case WS_EVT_DISCONNECT:
+      Serial.printf("WebSocket client #%u disconnected\n", client->id());
+      break;
+    case WS_EVT_DATA:
+      handleWebSocketMessage(arg, data, len);
+      break;
+    case WS_EVT_PONG:
+    case WS_EVT_ERROR:
+      break;
+    }
+  }
+
+  void initWebSocket()
+  {
+    ws.onEvent(onEvent);
+    server.addHandler(&ws);
+  }
+  void setup()
+  {
+    Serial.begin(115200);
+    pinMode(ledPin1, OUTPUT);
+    pinMode(ledPin2, OUTPUT);
+    pinMode(ledPin3, OUTPUT);
+    initFS();
+    initWifi();
+    initWebSocket();
+    // Web server root url
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+      request->send(LittleFS,"/index.html","text/html");
+    });
+
+    server.serveStatic("/", LittleFS, "/");
+
+    server.begin();
+  }
+  void loop()
+  {
+    analogWrite(ledPin1, dutyCyle1);
+    analogWrite(ledPin2, dutyCyle2);
+    analogWrite(ledPin3, dutyCyle3);
+
+    ws.cleanupClients();
+  }
