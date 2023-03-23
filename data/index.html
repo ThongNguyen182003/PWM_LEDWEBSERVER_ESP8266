@@ -1,60 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thong Nguyen</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" type = "text/css" href="style.css">
-
+    <title>ESP IOT DASHBOARD</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
     <div class="topnav">
-        <h1>
-            3 Switch Slider PWM ESP8266
-        </h1>
+        <h1>Multiple Sliders</h1>
     </div>
     <div class="content">
         <div class="card-grid">
             <div class="card">
-                <p class="card-title">
-                    Slider 1
-                </p>
+                <p class="card-title">Fader 1</p>
                 <p class="switch">
-                    <input type="range" onchange="updateSliderPWM(this)" id = "slider1" min ="0" max ="100" step = "1"value ="0" class="slider">
+                    <input type="range" onchange="updateSliderPWM(this)" id="slider1" min="0" max="100" step="1" value ="0" class="slider">
                 </p>
-                <p class="state">
-                    Brightness: <span id = "sildervalue1"></span>
-                    &percnt;
-                </p>
-            </div> 
+                <p class="state">Brightness: <span id="sliderValue1"></span> &percnt;</p>
+            </div>
             <div class="card">
-                <p class="card-title">
-                    Slider 2
-                </p>
+                <p class="card-title"> Fader 2</p>
                 <p class="switch">
-                    <input type="range" onchange="updateSliderPWM(this)" id = "slider2" min ="0" max ="100" step = "1"value ="0" class="slider">
+                    <input type="range" onchange="updateSliderPWM(this)" id="slider2" min="0" max="100" step="1" value ="0" class="slider">
                 </p>
-                <p class="state">
-                    Brightness: <span id = "sildervalue2"></span>
-                    &percnt;
-                </p>
-            </div>  
+                <p class="state">Brightness: <span id="sliderValue2"></span> &percnt;</p>
+            </div>
             <div class="card">
-                <p class="card-title">
-                    Slider 3
-                </p>
+                <p class="card-title"> Fader 3</p>
                 <p class="switch">
-                    <input type="range" onchange="updateSliderPWM(this)" id = "slider3" min ="0" max ="100" step = "1"value ="0" class="slider">
+                    <input type="range" onchange="updateSliderPWM(this)" id="slider3" min="0" max="100" step="1" value ="0" class="slider">
                 </p>
-                <p class="state">
-                    Brightness: <span id = "sildervalue3"></span>
-                    &percnt;
-                </p>
-            </div>   
+                <p class="state">Brightness: <span id="sliderValue3"></span> &percnt;</p>
+            </div>
         </div>
     </div>
-    <script src = "script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -7,7 +7,7 @@ function onload(event) {
 }
 
 function getValues(){
-    websocket.send("getValues");
+    websocket.send("getValue");
 }
 
 function initWebSocket() {
@@ -31,7 +31,7 @@ function onClose(event) {
 function updateSliderPWM(element) {
     var sliderNumber = element.id.charAt(element.id.length-1);
     var sliderValue = document.getElementById(element.id).value;
-    document.getElementById("slidervalue"+sliderNumber).innerHTML = sliderValue;
+    document.getElementById("sliderValue"+sliderNumber).innerHTML = sliderValue;
     console.log(sliderValue);
     websocket.send(sliderNumber+"s"+sliderValue.toString());
 }
@@ -44,6 +44,5 @@ function onMessage(event) {
     for (var i = 0; i < keys.length; i++){
         var key = keys[i];
         document.getElementById(key).innerHTML = myObj[key];
-        document.getElementById("slider"+ (i+1).toString()).value = myObj[key];
     }
 }
